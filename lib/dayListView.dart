@@ -1,27 +1,27 @@
 import 'package:flutter/material.dart';
 import 'dayItem.dart';
-import 'model/workDay.dart';
+import 'model/ui_work_day_summary.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class DayListView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     var state = new DayListViewState();
-    List<WorkDay> workDays = loadData();
+    List<UiWorkDaySummary> workDays = loadData();
     state._items = workDays;
     return state;
   }
 
-  List<WorkDay> loadData() {
-    List<WorkDay> result = [];
-    DateTime in1 = new DateTime(2018, 12, 1, 8, 35, 20);
-    DateTime out1 = new DateTime(2018, 12, 1, 18, 16, 20);
-    DateTime day1 = in1;
-    WorkDay w1 = new WorkDay(day1, in1, out1);
+  List<UiWorkDaySummary> loadData() {
+    List<UiWorkDaySummary> result = [];
+    DateTime day1 = new DateTime(2018, 12, 1, 8, 35, 20);
+    Duration duration1 = new Duration(hours: 8, minutes: 35);
+
+    UiWorkDaySummary w1 = new UiWorkDaySummary(day1, duration1);
     result.add(w1);
-    DateTime in2 = new DateTime(2018, 12, 2, 8, 32, 20);
-    DateTime out2 = new DateTime(2018, 12, 2, 18, 15, 20);
-    DateTime day2 = in2;
-    WorkDay w2 = new WorkDay(day2, in2, out2);
+    DateTime day2 = new DateTime(2018, 12, 2, 8, 35, 20);
+    Duration duration2 = new Duration(hours: 8, minutes: 29);
+    UiWorkDaySummary w2 = new UiWorkDaySummary(day2, duration2);
     result.add(w2);
     return result;
   }
@@ -31,14 +31,14 @@ class DayListView extends StatefulWidget {
 
 class DayListViewState extends State<DayListView> {
 
-  List<WorkDay> _items;
-  DayListViewState() {
-  }
+  List<UiWorkDaySummary> _items;
+  //DateFormat _dateFormat;
+  DayListViewState();
 
 
-  List<WorkDay> get items => _items;
+  List<UiWorkDaySummary> get items => _items;
 
-  set items(List<WorkDay> value) {
+  set items(List<UiWorkDaySummary> value) {
     _items = value;
   }
 
@@ -53,10 +53,17 @@ class DayListViewState extends State<DayListView> {
             // Add a one-pixel-high divider widget before each row in theListView.
             return Divider();
           } else {
-            int index = (i / 2).toInt();
+            int index = i ~/ 2;
             var item = _items[index];
-            int day = item.dateTime.day;
-            return DayItem(day.toString());
+            DateTime date = item.date;
+            String day = date.day.toString();
+            String monthName = "December";
+            String dayOfWeek = "Wednesday";
+            int totalMinutes = item.duration.inMinutes;
+            int hours = totalMinutes ~/ 60;
+            int minutes = totalMinutes - (hours * 60);
+            String duration = hours.toString() + ":" + minutes.toString();
+            return DayItem(day, monthName, dayOfWeek, duration);
           }
         }
     );
