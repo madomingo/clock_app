@@ -1,0 +1,8 @@
+{
+  "title": "Registro de Trabajo",
+  "@@locale": "es",
+  "@title": {
+    "description": "Title for the application",
+    "type": "text"
+  }
+}

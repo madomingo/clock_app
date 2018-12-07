@@ -1,0 +1,8 @@
+{
+  "title": "Clock App",
+  "@@locale": "en",
+  "@title": {
+    "description": "Title for the Demo application",
+    "type": "text"
+  }
+}
