@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dayItem.dart';
 import 'model/ui_work_day_summary.dart';
-import 'package:intl/date_symbol_data_local.dart';
+//import 'package:intl/date_symbol_data_local.dart';
 
 class DayListView extends StatefulWidget {
   @override
