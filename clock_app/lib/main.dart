@@ -1,8 +1,9 @@
+import 'package:clock_app/working_month_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dayListView.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/messages_all.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -11,10 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      onGenerateTitle: (BuildContext context) => DemoLocalizations.of(context).title,
+      onGenerateTitle: (BuildContext context) => ClockAppLocalizations.of(context).title,
       localizationsDelegates: [
         // ... app-specific localization delegate[s] here
-        const DemoLocalizationsDelegate(),
+        const ClockAppLocalizationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
@@ -46,28 +47,27 @@ class ClockApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(DemoLocalizations.of(context).title),
+          title: Text(ClockAppLocalizations.of(context).title),
         ),
         body: Center(
-          //child: Text(wordPair.asPascalCase), // Change the highlighted text to...
-          child: DayListView(), // ... this highlighted text
+          child: WorkingMonthPage(), // ... this highlighted text
         ),
       );
   }
 }
 
-class DemoLocalizations {
-  static Future<DemoLocalizations> load(Locale locale) {
+class ClockAppLocalizations {
+  static Future<ClockAppLocalizations> load(Locale locale) {
     final String name = locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
     final String localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
-      return DemoLocalizations();
+      return ClockAppLocalizations();
     });
   }
 
-  static DemoLocalizations of(BuildContext context) {
-    return Localizations.of<DemoLocalizations>(context, DemoLocalizations);
+  static ClockAppLocalizations of(BuildContext context) {
+    return Localizations.of<ClockAppLocalizations>(context, ClockAppLocalizations);
   }
 
   String get title {
@@ -79,16 +79,16 @@ class DemoLocalizations {
   }
 }
 
-class DemoLocalizationsDelegate extends LocalizationsDelegate<DemoLocalizations> {
-  const DemoLocalizationsDelegate();
+class ClockAppLocalizationsDelegate extends LocalizationsDelegate<ClockAppLocalizations> {
+  const ClockAppLocalizationsDelegate();
 
   @override
   bool isSupported(Locale locale) => ['en', 'es'].contains(locale.languageCode);
 
   @override
-  Future<DemoLocalizations> load(Locale locale) => DemoLocalizations.load(locale);
+  Future<ClockAppLocalizations> load(Locale locale) => ClockAppLocalizations.load(locale);
 
   @override
-  bool shouldReload(DemoLocalizationsDelegate old) => false;
+  bool shouldReload(ClockAppLocalizationsDelegate old) => false;
 }
 

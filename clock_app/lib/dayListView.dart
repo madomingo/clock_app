@@ -1,28 +1,34 @@
+import 'package:clock_app/model/work_day.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dayItem.dart';
 import 'model/ui_work_day_summary.dart';
-//import 'package:intl/date_symbol_data_local.dart';
-
 class DayListView extends StatefulWidget {
+  List<WorkDay> _data;
+  DayListView(List<WorkDay> data) {
+    this._data = data;
+  }
+
   @override
   State<StatefulWidget> createState() {
-    var state = new DayListViewState();
-    List<UiWorkDaySummary> workDays = loadData();
-    state._items = workDays;
+    print("createState");
+    var summary = buildSummary(this._data);
+    print("Summary has: " + summary.length.toString() + " items");
+    var state = new DayListViewState(summary);
+
     return state;
   }
 
-  List<UiWorkDaySummary> loadData() {
-    List<UiWorkDaySummary> result = [];
-    DateTime day1 = new DateTime(2018, 12, 1, 8, 35, 20);
-    Duration duration1 = new Duration(hours: 8, minutes: 35);
+  List<UiWorkDaySummary> buildSummary(List<WorkDay> data) {
 
-    UiWorkDaySummary w1 = new UiWorkDaySummary(day1, duration1);
-    result.add(w1);
-    DateTime day2 = new DateTime(2018, 12, 2, 8, 35, 20);
-    Duration duration2 = new Duration(hours: 8, minutes: 29);
-    UiWorkDaySummary w2 = new UiWorkDaySummary(day2, duration2);
-    result.add(w2);
+    List<UiWorkDaySummary> result = [];
+    for (WorkDay workDay in data) {
+      DateTime date = workDay.date;
+      Duration duration = new Duration(minutes: workDay.totalMinutes);
+      UiWorkDaySummary summary = UiWorkDaySummary(date, duration);
+      result.add(summary);
+
+    }
     return result;
   }
 
@@ -30,16 +36,12 @@ class DayListView extends StatefulWidget {
 }
 
 class DayListViewState extends State<DayListView> {
-
   List<UiWorkDaySummary> _items;
-  //DateFormat _dateFormat;
-  DayListViewState();
+  final DateFormat _monthDateFormat = new DateFormat("MMM");
+  final DateFormat _dayDateFormat = new DateFormat("E");
 
-
-  List<UiWorkDaySummary> get items => _items;
-
-  set items(List<UiWorkDaySummary> value) {
-    _items = value;
+  DayListViewState(List<UiWorkDaySummary> summary) {
+    this._items = summary;
   }
 
   @override
@@ -47,7 +49,7 @@ class DayListViewState extends State<DayListView> {
 
     return ListView.builder(
         padding: const EdgeInsets.all(16.0),
-        itemCount: _items.length * 2,
+        itemCount: (_items != null) ? _items.length * 2 : 0,
         itemBuilder: (context, i) {
           if (i.isOdd) {
             // Add a one-pixel-high divider widget before each row in theListView.
@@ -57,8 +59,11 @@ class DayListViewState extends State<DayListView> {
             var item = _items[index];
             DateTime date = item.date;
             String day = date.day.toString();
-            String monthName = "December";
-            String dayOfWeek = "Wednesday";
+
+            String monthName = _monthDateFormat.format(date);
+            monthName = monthName[0].toUpperCase() + monthName.substring(1,3);
+            String dayOfWeek = _dayDateFormat.format(date);
+            dayOfWeek = dayOfWeek[0].toUpperCase() + dayOfWeek.substring(1,3);
             int totalMinutes = item.duration.inMinutes;
             int hours = totalMinutes ~/ 60;
             int minutes = totalMinutes - (hours * 60);
