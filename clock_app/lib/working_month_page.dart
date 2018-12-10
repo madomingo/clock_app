@@ -1,4 +1,4 @@
-import 'package:clock_app/dayListView.dart';
+import 'package:clock_app/day_list_view.dart';
 import 'package:clock_app/model/work_day.dart';
 import 'package:flutter/material.dart';
 import 'operations/get_working_days_operation.dart';

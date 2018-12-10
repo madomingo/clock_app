@@ -1,8 +1,7 @@
+import 'package:clock_app/clock_localizations.dart';
 import 'package:clock_app/working_month_page.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'l10n/messages_all.dart';
 
 
 void main() => runApp(MyApp());
@@ -56,39 +55,5 @@ class ClockApp extends StatelessWidget {
   }
 }
 
-class ClockAppLocalizations {
-  static Future<ClockAppLocalizations> load(Locale locale) {
-    final String name = locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
-    final String localeName = Intl.canonicalizedLocale(name);
-    return initializeMessages(localeName).then((_) {
-      Intl.defaultLocale = localeName;
-      return ClockAppLocalizations();
-    });
-  }
 
-  static ClockAppLocalizations of(BuildContext context) {
-    return Localizations.of<ClockAppLocalizations>(context, ClockAppLocalizations);
-  }
-
-  String get title {
-    return Intl.message(
-      'Clock In & Out',
-      name: 'title',
-      desc: 'Title for the Demo application',
-    );
-  }
-}
-
-class ClockAppLocalizationsDelegate extends LocalizationsDelegate<ClockAppLocalizations> {
-  const ClockAppLocalizationsDelegate();
-
-  @override
-  bool isSupported(Locale locale) => ['en', 'es'].contains(locale.languageCode);
-
-  @override
-  Future<ClockAppLocalizations> load(Locale locale) => ClockAppLocalizations.load(locale);
-
-  @override
-  bool shouldReload(ClockAppLocalizationsDelegate old) => false;
-}
 
