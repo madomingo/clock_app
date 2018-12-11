@@ -1,5 +1,6 @@
 import 'package:clock_app/clock_localizations.dart';
 import 'package:clock_app/model/work_day.dart';
+import 'package:clock_app/working_day_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -7,10 +8,11 @@ import 'day_item.dart';
 import 'model/ui_work_day_summary.dart';
 
 class DayListView extends StatefulWidget {
-  List<WorkDay> _data;
-  DayListView(List<WorkDay> data) {
-    this._data = data;
-  }
+  final List<WorkDay> data;
+
+  final Function(WorkDay) onWorkDaySelected;
+  DayListView({this.data, this.onWorkDaySelected});
+
 
   List<UiWorkDaySummary> buildSummary(List<WorkDay> data) {
     List<UiWorkDaySummary> result = [];
@@ -26,11 +28,19 @@ class DayListView extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     print("createState");
-    var summary = buildSummary(this._data);
+    var summary = buildSummary(this.data);
     print("Summary has: " + summary.length.toString() + " items");
-    var state = new DayListViewState(summary);
+    var state = new DayListViewState(summary, this._onItemClicked);
 
     return state;
+  }
+
+  Function _onItemClicked(int position) {
+    print("Item clicked: " + position.toString());
+    if ((position >= 0) && (position < data.length)) {
+      WorkDay workDay = data[position];
+      this.onWorkDaySelected(workDay);
+    }
   }
 }
 
@@ -38,9 +48,11 @@ class DayListViewState extends State<DayListView> {
   List<UiWorkDaySummary> _items;
   final DateFormat _monthDateFormat = new DateFormat("MMM");
   final DateFormat _dayDateFormat = new DateFormat("E");
+  Function(int) _onItemClicked;
 
-  DayListViewState(List<UiWorkDaySummary> summary) {
+  DayListViewState(List<UiWorkDaySummary> summary, Function(int) onItemClicked) {
     this._items = summary;
+    this._onItemClicked = onItemClicked;
   }
 
   @override
@@ -73,12 +85,19 @@ class DayListViewState extends State<DayListView> {
               int hours = totalMinutes ~/ 60;
               int minutes = totalMinutes - (hours * 60);
               String duration = hours.toString() + ":" + minutes.toString();
-              return DayItem(day, monthName, dayOfWeek, duration);
+              return GestureDetector(
+                  onTap: () {
+                    this._onItemClicked(itemIndex);
+                    },
+                  child: DayItem(day, monthName, dayOfWeek, duration));
             }
           }
         });
   }
+
 }
+
+
 
 class HeaderItem extends StatelessWidget {
   final _headerFont =

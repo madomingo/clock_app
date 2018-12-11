@@ -1,5 +1,6 @@
 import 'package:clock_app/day_list_view.dart';
 import 'package:clock_app/model/work_day.dart';
+import 'package:clock_app/working_day_page.dart';
 import 'package:flutter/material.dart';
 import 'operations/get_working_days_operation.dart';
 class WorkingMonthPage extends StatefulWidget {
@@ -25,7 +26,9 @@ class WorkingMonthPageState extends State<WorkingMonthPage> {
       future: operation.fetchPost(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return DayListView(snapshot.data);
+          return DayListView(data: snapshot.data,
+              onWorkDaySelected: _onWorkDaySelected
+              );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
@@ -34,5 +37,18 @@ class WorkingMonthPageState extends State<WorkingMonthPage> {
         return CircularProgressIndicator();
       });
 
+  }
+
+  Function _onWorkDaySelected(WorkDay workDay)  {
+    navigateToDetail(workDay);
+  }
+  void navigateToDetail(WorkDay workDay) {
+    if (workDay != null) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WorkingDayPage(workDay: workDay),
+          ));
+    }
   }
 }
