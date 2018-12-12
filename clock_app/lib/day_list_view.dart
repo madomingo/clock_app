@@ -58,7 +58,6 @@ class DayListViewState extends State<DayListView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        padding: const EdgeInsets.only(top: 8.0),
         itemCount: (_items != null) ? (_items.length * 2) + 1 : 1,
         itemBuilder: (context, i) {
           if (i == 0) {
