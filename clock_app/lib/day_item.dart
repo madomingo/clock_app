@@ -6,19 +6,23 @@ class DayItem extends StatefulWidget {
   final String _month;
   final String _dayOfWeek;
   final String _duration;
+  final String _inTime;
+  final String _outTime;
 
-  DayItem(this._dayOfMonth, this._month, this._dayOfWeek, this._duration);
+  DayItem(this._dayOfMonth, this._month, this._dayOfWeek, this._duration,this._inTime, this._outTime);
 
   @override
   State<StatefulWidget> createState() {
-    return DayItemState(this._dayOfMonth, this._month, this._dayOfWeek, this._duration);
+    return DayItemState(this._dayOfMonth, this._month, this._dayOfWeek, this._duration, this._inTime, this._outTime);
   }}
 
 
   class DayItemState extends State<DayItem> {
 
-    final _biggerFont =
+    final _xlFont =
     const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold);
+    final _bigFont =
+    const TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal);
     final _smallFont =
     const TextStyle(fontSize: 10.0, fontWeight: FontWeight.normal);
     final _mediumFont =
@@ -28,8 +32,10 @@ class DayItem extends StatefulWidget {
     final String _month;
     final String _dayOfWeek;
     final String _duration;
+    final String _inTime;
+    final String _outTime;
 
-    DayItemState(this._dayOfMonth, this._month, this._dayOfWeek, this._duration);
+    DayItemState(this._dayOfMonth, this._month, this._dayOfWeek, this._duration, this._inTime, this._outTime);
 
     bool _tapped = false;
     @override
@@ -40,13 +46,13 @@ class DayItem extends StatefulWidget {
             onPointerUp: _onUp,
             onPointerCancel: _onCancel,
             child: Container(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 6.0, bottom: 6.0),
                 decoration: BoxDecoration(color: (_tapped) ? Colors.amber : Colors.transparent),
                 child: Row(
                   children: <Widget>[
                     Column(
                       children: <Widget>[
-                        Text(_dayOfMonth, style: _biggerFont),
+                        Text(_dayOfMonth, style: _xlFont),
                         Text(_month, style: _smallFont)
                       ],
                     ),
@@ -55,9 +61,25 @@ class DayItem extends StatefulWidget {
                         child: Text(_dayOfWeek, style: _mediumFont)),
                     Expanded(
                         child: Padding(
+                            padding: EdgeInsets.only(left: 12.0, right: 12.0),
+                            child: Column(
+                              children: <Widget>[
+                                Row (
+                                  children: <Widget>[
+                                    Icon(Icons.keyboard_arrow_right, color: Colors.green, size: 16.0,),
+                                    Text(_inTime, style: _bigFont, textAlign: TextAlign.center)
+                                  ],
+                                ),
+                                Row (children: <Widget>[
+                                  Icon(Icons.keyboard_arrow_left, color: Colors.red, size: 16.0),
+                                  Text(_outTime, style: _bigFont, textAlign: TextAlign.center)
+                                ],)
+                              ]))),
+                    Expanded(
+                        child: Padding(
                             padding: EdgeInsets.only(right: 12.0),
                             child: Text(_duration,
-                                style: _biggerFont, textAlign: TextAlign.right)))
+                                style: _xlFont, textAlign: TextAlign.right)))
                   ],
                 )));
     }

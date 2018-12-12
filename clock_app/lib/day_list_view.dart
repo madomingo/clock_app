@@ -1,6 +1,5 @@
 import 'package:clock_app/clock_localizations.dart';
 import 'package:clock_app/model/work_day.dart';
-import 'package:clock_app/working_day_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -19,7 +18,17 @@ class DayListView extends StatefulWidget {
     for (WorkDay workDay in data) {
       DateTime date = workDay.date;
       Duration duration = new Duration(minutes: workDay.totalMinutes);
-      UiWorkDaySummary summary = UiWorkDaySummary(date, duration);
+      var checkings = workDay.checkings;
+      DateTime inTime, outTime;
+      if (checkings != null) {
+        if (checkings.length > 0) {
+          inTime = checkings[0];
+          if (checkings.length > 1) {
+            outTime = checkings[checkings.length - 1];
+          }
+        }
+      }
+      UiWorkDaySummary summary = UiWorkDaySummary(date: date, duration: duration, inTime: inTime, outTime: outTime);
       result.add(summary);
     }
     return result;
@@ -48,6 +57,7 @@ class DayListViewState extends State<DayListView> {
   List<UiWorkDaySummary> _items;
   final DateFormat _monthDateFormat = new DateFormat("MMM");
   final DateFormat _dayDateFormat = new DateFormat("E");
+  final DateFormat _timeFormat = new DateFormat("HH:mm");
   Function(int) _onItemClicked;
 
   DayListViewState(List<UiWorkDaySummary> summary, Function(int) onItemClicked) {
@@ -84,11 +94,14 @@ class DayListViewState extends State<DayListView> {
               int hours = totalMinutes ~/ 60;
               int minutes = totalMinutes - (hours * 60);
               String duration = hours.toString() + ":" + minutes.toString();
+              String inTime = (item.inTime != null) ? this._timeFormat.format(item.inTime) : "";
+              String outTime = (item.outTime != null) ? this._timeFormat.format(item.outTime) : "";
+
               return GestureDetector(
                   onTap: () {
                     this._onItemClicked(itemIndex);
                     },
-                  child: DayItem(day, monthName, dayOfWeek, duration));
+                  child: DayItem(day, monthName, dayOfWeek, duration, inTime, outTime));
             }
           }
         });
@@ -118,6 +131,15 @@ class HeaderItem extends StatelessWidget {
                       child: Text(ClockAppLocalizations.of(context).date,
                           style: _headerFont)),
                 ),
+                Expanded(
+                    child: Container(
+                        alignment: Alignment.center,
+                        child: Padding(
+                            padding: EdgeInsets.only(left:12.0, right: 12.0),
+                            child: Text(
+                                ClockAppLocalizations.of(context).in_out,
+                                style: _headerFont,
+                                textAlign: TextAlign.center)))),
                 Expanded(
                     child: Container(
                         alignment: Alignment.centerRight,

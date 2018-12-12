@@ -20,6 +20,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "title" : MessageLookupByLibrary.simpleMessage("Clock App")
+    "date" : MessageLookupByLibrary.simpleMessage("Date"),
+    "in_out" : MessageLookupByLibrary.simpleMessage("In - Out"),
+    "no_records" : MessageLookupByLibrary.simpleMessage("No records"),
+    "title" : MessageLookupByLibrary.simpleMessage("Clock App"),
+    "working_time" : MessageLookupByLibrary.simpleMessage("Hours:mins")
   };
 }

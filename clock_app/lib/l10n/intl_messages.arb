@@ -5,5 +5,10 @@
     "description": "Title for the Demo application",
     "type": "text",
     "placeholders": {}
-  }
+  },
+  "date" : "Date",
+  "working_time" : "Hours:mins",
+  "no_records": "No records",
+  "in_out": "In - Out"
+
 }

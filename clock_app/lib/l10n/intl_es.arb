@@ -4,5 +4,9 @@
   "@title": {
     "description": "Title for the application",
     "type": "text"
-  }
+  },
+  "date" : "Date",
+  "working_time" : "Hours:mins",
+  "no_records": "Sin registro",
+  "in_out": "Entrada - Salida"
 }

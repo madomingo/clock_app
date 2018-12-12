@@ -1,12 +1,15 @@
+
+import 'package:flutter/material.dart';
+
 class UiWorkDaySummary {
-  DateTime _date;
-  Duration _duration;
+  final DateTime date;
+  Duration duration;
+  DateTime inTime;
+  DateTime outTime;
 
-  UiWorkDaySummary(this._date, this._duration);
 
-  Duration get duration => _duration;
+  UiWorkDaySummary({@required this.date, this.duration, this.inTime, this.outTime});
 
-  DateTime get date => _date;
 
 
 }

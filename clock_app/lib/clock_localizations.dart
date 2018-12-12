@@ -39,6 +39,22 @@ class ClockAppLocalizations {
       desc: '',
     );
   }
+
+  String get no_records {
+    return Intl.message(
+      'No records',
+      name: 'no_records',
+      desc: '',
+    );
+  }
+
+  String get in_out {
+    return Intl.message(
+      'In - Out',
+      name: 'in_out',
+      desc: '',
+    );
+  }
 }
 
 class ClockAppLocalizationsDelegate extends LocalizationsDelegate<ClockAppLocalizations> {
