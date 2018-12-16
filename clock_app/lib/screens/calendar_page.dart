@@ -1,12 +1,12 @@
-import 'package:clock_app/day_list_view.dart';
+import 'package:clock_app/ui/day_list_view.dart';
 import 'package:clock_app/model/work_day.dart';
-import 'package:clock_app/working_day_page.dart';
+import 'package:clock_app/screens/working_day_page.dart';
 import 'package:flutter/material.dart';
-import 'operations/get_working_days_operation.dart';
-class WorkingMonthPage extends StatefulWidget {
+import '../operations/get_working_days_operation.dart';
+class CalendarPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    var state = new WorkingMonthPageState();
+    var state = new CalendarPageState();
 
     return state;
   }
@@ -14,7 +14,7 @@ class WorkingMonthPage extends StatefulWidget {
 
 }
 
-class WorkingMonthPageState extends State<WorkingMonthPage> {
+class CalendarPageState extends State<CalendarPage> {
 
   final GetWorkingDaysOperation operation = GetWorkingDaysOperation();
 

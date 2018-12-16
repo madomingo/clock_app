@@ -3,8 +3,8 @@ import 'package:clock_app/model/work_day.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'day_item.dart';
-import 'model/ui_work_day_summary.dart';
+import 'package:clock_app/ui/day_item.dart';
+import '../model/ui_work_day_summary.dart';
 
 class DayListView extends StatefulWidget {
   final List<WorkDay> data;
