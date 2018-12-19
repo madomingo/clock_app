@@ -1,5 +1,5 @@
 import 'package:clock_app/clock_localizations.dart';
-import 'package:clock_app/screens/working_month_page.dart';
+import 'package:clock_app/screens/calendar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -49,7 +49,8 @@ class ClockApp extends StatelessWidget {
           title: Text(ClockAppLocalizations.of(context).title),
         ),
         body: Center(
-          child: WorkingMonthPage(), // ... this highlighted text
+         // child: WorkingMonthPage(), // ... this highlighted text
+          child: CalendarPage()
         ),
       );
   }

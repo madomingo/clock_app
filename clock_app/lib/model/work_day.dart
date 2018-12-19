@@ -1,4 +1,4 @@
-class WorkDay {
+class WorkDay implements Comparable<WorkDay> {
   DateTime _date;
   int _totalMinutes;
   List<DateTime> _checkings;
@@ -34,6 +34,19 @@ class WorkDay {
     }
     return WorkDay(date, totalMinutes, checkingDates);
 
+  }
+
+  @override
+  int compareTo(WorkDay other) {
+    if (other == null) {
+      return 1;
+    } else if (this.date == null && other.date == null) {
+      return 0;
+    } else if (this.date == null && other.date != null) {
+      return -1;
+    } else {
+      return this.date.compareTo(other.date);
+    }
   }
 
 }
