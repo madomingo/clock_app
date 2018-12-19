@@ -1,3 +1,4 @@
+import 'package:clock_app/clock_localizations.dart';
 import 'package:flutter/material.dart';
 
 class DayItem extends StatefulWidget {
@@ -47,7 +48,7 @@ class DayItem extends StatefulWidget {
             onPointerCancel: _onCancel,
             child: Container(
                 padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 6.0, bottom: 6.0),
-                decoration: BoxDecoration(color: (_tapped) ? Colors.amber : Colors.transparent),
+                decoration: BoxDecoration(color: (_tapped) ? Colors.black12 : Colors.transparent),
                 child: Row(
                   children: <Widget>[
                     Column(
@@ -78,8 +79,14 @@ class DayItem extends StatefulWidget {
                     Expanded(
                         child: Padding(
                             padding: EdgeInsets.only(right: 12.0),
-                            child: Text(_duration,
-                                style: _xlFont, textAlign: TextAlign.right)))
+                            child: Column(
+                              children: <Widget>[
+                                Text(ClockAppLocalizations.of(context).working_time,
+                                    style: _mediumFont, textAlign: TextAlign.right),
+                                Text(_duration,
+                                    style: _bigFont, textAlign: TextAlign.right)
+                              ],
+                            )))
                   ],
                 )));
     }

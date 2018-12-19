@@ -34,7 +34,7 @@ class ClockAppLocalizations {
   }
   String get working_time {
     return Intl.message(
-      'Hours:mins',
+      'Working Time',
       name: 'working_time',
       desc: '',
     );
@@ -52,6 +52,22 @@ class ClockAppLocalizations {
     return Intl.message(
       'In - Out',
       name: 'in_out',
+      desc: '',
+    );
+  }
+
+  String get total_hours {
+    return Intl.message(
+      'Total Hours',
+      name: 'total_hours',
+      desc: '',
+    );
+  }
+
+  String get excess_hours {
+    return Intl.message(
+      'Excess Hours',
+      name: 'excess_hours',
       desc: '',
     );
   }

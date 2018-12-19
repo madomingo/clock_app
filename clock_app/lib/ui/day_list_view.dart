@@ -1,17 +1,18 @@
 import 'package:clock_app/clock_localizations.dart';
 import 'package:clock_app/model/work_day.dart';
+import 'package:clock_app/ui/no_working_day_item.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:clock_app/ui/day_item.dart';
 import '../model/ui_work_day_summary.dart';
+import '../utils/date_utils.dart';
 
 class DayListView extends StatefulWidget {
   final List<WorkDay> data;
 
   final Function(WorkDay) onWorkDaySelected;
   DayListView({this.data, this.onWorkDaySelected});
-
 
   List<UiWorkDaySummary> buildSummary(List<WorkDay> data) {
     List<UiWorkDaySummary> result = [];
@@ -28,7 +29,8 @@ class DayListView extends StatefulWidget {
           }
         }
       }
-      UiWorkDaySummary summary = UiWorkDaySummary(date: date, duration: duration, inTime: inTime, outTime: outTime);
+      UiWorkDaySummary summary = UiWorkDaySummary(
+          date: date, duration: duration, inTime: inTime, outTime: outTime);
       result.add(summary);
     }
     return result;
@@ -55,12 +57,12 @@ class DayListView extends StatefulWidget {
 
 class DayListViewState extends State<DayListView> {
   List<UiWorkDaySummary> _items;
-  final DateFormat _monthDateFormat = new DateFormat("MMM");
   final DateFormat _dayDateFormat = new DateFormat("E");
   final DateFormat _timeFormat = new DateFormat("HH:mm");
   Function(int) _onItemClicked;
 
-  DayListViewState(List<UiWorkDaySummary> summary, Function(int) onItemClicked) {
+  DayListViewState(
+      List<UiWorkDaySummary> summary, Function(int) onItemClicked) {
     this._items = summary;
     this._onItemClicked = onItemClicked;
   }
@@ -68,48 +70,43 @@ class DayListViewState extends State<DayListView> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: (_items != null) ? (_items.length * 2) + 1 : 1,
+        itemCount: (_items != null) ? (_items.length * 2) : 0,
         itemBuilder: (context, i) {
-          if (i == 0) {
-            // return the header
-            return HeaderItem();
+          if (i.isOdd) {
+            // Add a one-pixel-high divider widget before each row in theListView.
+            return Divider();
           } else {
-            int index = i - 1;
-            if (index.isOdd) {
-              // Add a one-pixel-high divider widget before each row in theListView.
-              return Divider();
-            } else {
-              int itemIndex = index ~/ 2;
-              var item = _items[itemIndex];
-              DateTime date = item.date;
-              String day = date.day.toString();
+            int itemIndex = i ~/ 2;
+            var item = _items[itemIndex];
+            DateTime date = item.date;
+            String day = date.day.toString();
 
-              String monthName = _monthDateFormat.format(date);
-              monthName =
-                  monthName[0].toUpperCase() + monthName.substring(1, 3);
-              String dayOfWeek = _dayDateFormat.format(date);
-              dayOfWeek =
-                  dayOfWeek[0].toUpperCase() + dayOfWeek.substring(1, 3);
-              int totalMinutes = item.duration.inMinutes;
-              int hours = totalMinutes ~/ 60;
-              int minutes = totalMinutes - (hours * 60);
-              String duration = hours.toString() + ":" + minutes.toString();
-              String inTime = (item.inTime != null) ? this._timeFormat.format(item.inTime) : "";
-              String outTime = (item.outTime != null) ? this._timeFormat.format(item.outTime) : "";
+            String monthName = DateUtils.getShortMonthName(date);
+            String dayOfWeek = _dayDateFormat.format(date);
+            dayOfWeek = dayOfWeek[0].toUpperCase() + dayOfWeek.substring(1, 3);
+            int totalMinutes = item.duration.inMinutes;
+            int hours = totalMinutes ~/ 60;
+            int minutes = totalMinutes - (hours * 60);
+            String duration = hours.toString() + ":" + minutes.toString();
+            String inTime = (item.inTime != null)
+                ? this._timeFormat.format(item.inTime)
+                : "";
+            String outTime = (item.outTime != null)
+                ? this._timeFormat.format(item.outTime)
+                : "";
 
-              return GestureDetector(
-                  onTap: () {
-                    this._onItemClicked(itemIndex);
-                    },
-                  child: DayItem(day, monthName, dayOfWeek, duration, inTime, outTime));
-            }
+            return GestureDetector(
+                onTap: () {
+                  this._onItemClicked(itemIndex);
+                },
+                child: (item.duration != null && item.duration.inMinutes > 0)
+                    ? DayItem(
+                        day, monthName, dayOfWeek, duration, inTime, outTime)
+                    : NoWorkingDayItem(day, monthName, dayOfWeek));
           }
         });
   }
-
 }
-
-
 
 class HeaderItem extends StatelessWidget {
   final _headerFont =
@@ -120,7 +117,7 @@ class HeaderItem extends StatelessWidget {
     return new SizedBox(
       height: 56.0,
       child: Container(
-          decoration: BoxDecoration(color: Colors.grey),
+          decoration: BoxDecoration(color: Colors.black26),
           child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -135,7 +132,7 @@ class HeaderItem extends StatelessWidget {
                     child: Container(
                         alignment: Alignment.center,
                         child: Padding(
-                            padding: EdgeInsets.only(left:12.0, right: 12.0),
+                            padding: EdgeInsets.only(left: 12.0, right: 12.0),
                             child: Text(
                                 ClockAppLocalizations.of(context).in_out,
                                 style: _headerFont,

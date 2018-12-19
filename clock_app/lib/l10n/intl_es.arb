@@ -6,7 +6,9 @@
     "type": "text"
   },
   "date" : "Date",
-  "working_time" : "Hours:mins",
+  "working_time" : "Tiempo trabajado",
   "no_records": "Sin registro",
-  "in_out": "Entrada - Salida"
+  "in_out": "Entrada - Salida",
+  "total_hours": "Horas totales",
+  "excess_hours": "Exceso de horas"
 }

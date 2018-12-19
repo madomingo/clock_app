@@ -35,7 +35,7 @@ class WorkingMonthPageState extends State<WorkingMonthPage> {
   Widget build(BuildContext context) {
      return Scaffold(
         appBar: AppBar(
-          title: Text("Current Month"),
+          title: Text(DateUtils.getFullMonthDate(_workMonth.date)),
         ),
         body: FutureBuilder<List<WorkDay>>(
           future: operation.fetchPost(),
@@ -56,7 +56,9 @@ class WorkingMonthPageState extends State<WorkingMonthPage> {
   }
 
   Function _onWorkDaySelected(WorkDay workDay)  {
-    navigateToDetail(workDay);
+    if ((workDay != null) && (workDay.totalMinutes > 0)) {
+      navigateToDetail(workDay);
+    }
   }
   void navigateToDetail(WorkDay workDay) {
     if (workDay != null) {

@@ -6,7 +6,9 @@
     "type": "text"
   },
   "date" : "Date",
-  "working_time" : "Hours:mins",
+  "working_time" : "Working Time",
   "no_records": "No records",
-  "in_out": "In - Out"
+  "in_out": "In - Out",
+  "total_hours": "Total Hours",
+  "excess_hours": "Excess Hours"
 }
