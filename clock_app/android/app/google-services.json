@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "602686293366",
+    "firebase_url": "https://clockin-64d56.firebaseio.com",
+    "project_id": "clockin-64d56",
+    "storage_bucket": "clockin-64d56.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602686293366:android:21c3f66b96bf0975",
+        "android_client_info": {
+          "package_name": "com.movilok.clockapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602686293366-8gr8040j64s1373a8g5fgim4qe3l58ju.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.movilok.clockapp",
+            "certificate_hash": "0855af061611e3a4b10bf0e56f3df73a2d2628dc"
+          }
+        },
+        {
+          "client_id": "602686293366-27apnbv05d9j1fmbv2dg66nu35tocbf7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAixGM5dNDEnQoQJpkcdb73b3G2iHC58rA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602686293366-27apnbv05d9j1fmbv2dg66nu35tocbf7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "602686293366-pdt9rhjaj29g78i4hchj20tre5ekercd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.movilok.clockApp"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
