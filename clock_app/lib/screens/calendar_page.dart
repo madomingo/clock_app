@@ -32,7 +32,7 @@ class CalendarPageState extends State<CalendarPage> {
         });
   }
 
-  Function _onWorkMonthSelected(WorkMonth workMonth) {
+  void _onWorkMonthSelected(WorkMonth workMonth) {
     navigateToDetail(workMonth);
   }
 

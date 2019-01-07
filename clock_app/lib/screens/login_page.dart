@@ -20,7 +20,46 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _doGoogleSignIn();
+    _googleSignIn.isSignedIn().then((bool signed) => _checkCurrentGoogleUser(signed),
+      onError: _doGoogleSignIn
+      );
+
+  }
+
+  void _checkCurrentGoogleUser(bool signed) {
+    if (signed) {
+      _googleSignIn.signInSilently().then(
+              (GoogleSignInAccount account) => _onGoogleSigned(account));
+    } else {
+      _doGoogleSignIn();
+    }
+  }
+
+  void _onGoogleSigned(GoogleSignInAccount account) {
+    setState(() {
+      _currentGoogleAccount = account;
+      _authenticationError = (account == null);
+    });
+    if (account != null) {
+      _auth.currentUser().then(
+              (FirebaseUser user) => _checkCurrentFirebaseUser(user),
+          onError: _doGoogleSignIn
+      );
+    }
+  }
+
+  void _checkCurrentFirebaseUser(FirebaseUser user) {
+    setState(() {
+      _currentFirebaseUser = user;
+    });
+
+
+    if (user == null) {
+      _doFirebaseSignIn();
+    } else {
+      _onLoginSucess();
+
+    }
   }
 
   void _doFirebaseSignIn() async {
@@ -33,9 +72,11 @@ class _LoginPageState extends State<LoginPage> {
             accessToken: authentication.accessToken);
         setState(() {
           _currentFirebaseUser = user;
-          _authenticationError = false;
+          _authenticationError = (user == null);
         });
-        _onLoginSucess();
+        if (user != null) {
+          _onLoginSucess();
+        }
       } catch (error) {
         print(error);
         _showError();
@@ -46,11 +87,7 @@ class _LoginPageState extends State<LoginPage> {
   void _doGoogleSignIn() async {
     try {
       var account = await _googleSignIn.signIn();
-      setState(() {
-        _currentGoogleAccount = account;
-        _authenticationError = false;
-      });
-      _doFirebaseSignIn();
+      _onGoogleSigned(account);
     } catch (error) {
       print(error);
       _showError();
@@ -69,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
     print(_currentFirebaseUser);
     setState(() {
       _contactText = _currentFirebaseUser.displayName;
-      _authenticationError = false;
+      _authenticationError = (_currentFirebaseUser == null);
     });
   }
 
@@ -84,16 +121,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildBody() {
-    if ((_currentGoogleAccount != null) && (_currentFirebaseUser != null)) {
+    if (_currentFirebaseUser != null) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           ListTile(
-            leading: GoogleUserCircleAvatar(
-              identity: _currentGoogleAccount,
-            ),
-            title: Text(_currentGoogleAccount.displayName),
-            subtitle: Text(_currentGoogleAccount.email),
+            title: Text(_currentFirebaseUser.displayName),
+            subtitle: Text(_currentFirebaseUser.email),
           ),
           const Text("Signed in successfully."),
           Text((_contactText != null) ? _contactText : ""),

@@ -55,7 +55,7 @@ class WorkingMonthPageState extends State<WorkingMonthPage> {
 
   }
 
-  Function _onWorkDaySelected(WorkDay workDay)  {
+  void _onWorkDaySelected(WorkDay workDay)  {
     if ((workDay != null) && (workDay.totalMinutes > 0)) {
       navigateToDetail(workDay);
     }
