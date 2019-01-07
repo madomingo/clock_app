@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -129,8 +130,11 @@ class _LoginPageState extends State<LoginPage> {
             title: Text(_currentFirebaseUser.displayName),
             subtitle: Text(_currentFirebaseUser.email),
           ),
-          const Text("Signed in successfully."),
-          Text((_contactText != null) ? _contactText : ""),
+          //const Text("Signed in successfully."),
+          new QrImage(
+            data: "1234567890",
+            size: 200.0,
+          ),
           RaisedButton(
               child: const Text('SIGN OUT'), onPressed: _handleSignOut),
         ],
