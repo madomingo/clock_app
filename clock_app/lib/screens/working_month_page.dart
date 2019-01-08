@@ -7,59 +7,52 @@ import '../model/work_month.dart';
 import '../utils/date_utils.dart';
 
 class WorkingMonthPage extends StatefulWidget {
-
   final WorkMonth _workMonth;
-
 
   WorkingMonthPage(this._workMonth);
 
   @override
   State<StatefulWidget> createState() {
     var state = new WorkingMonthPageState(_workMonth);
-
     return state;
   }
-
-
 }
 
 class WorkingMonthPageState extends State<WorkingMonthPage> {
-
   final GetWorkingDaysOperation operation = GetWorkingDaysOperation();
   final WorkMonth _workMonth;
 
   WorkingMonthPageState(this._workMonth);
 
-
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(DateUtils.getFullMonthDate(_workMonth.date)),
         ),
         body: FutureBuilder<List<WorkDay>>(
-          future: operation.fetchPost(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<WorkDay> data = buildWorkDayList(_workMonth.date, snapshot.data);
-              return DayListView(data: data,
-                  onWorkDaySelected: _onWorkDaySelected
-                  );
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
+            future: operation.fetchPost(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                List<WorkDay> data =
+                    buildWorkDayList(_workMonth.date, snapshot.data);
+                return DayListView(
+                    data: data, onWorkDaySelected: _onWorkDaySelected);
+              } else if (snapshot.hasError) {
+                return Text("${snapshot.error}");
+              }
 
-            // By default, show a loading spinner
-            return Center(child: CircularProgressIndicator());
-          }));
-
+              // By default, show a loading spinner
+              return Center(child: CircularProgressIndicator());
+            }));
   }
 
-  void _onWorkDaySelected(WorkDay workDay)  {
+  void _onWorkDaySelected(WorkDay workDay) {
     if ((workDay != null) && (workDay.totalMinutes > 0)) {
       navigateToDetail(workDay);
     }
   }
+
   void navigateToDetail(WorkDay workDay) {
     if (workDay != null) {
       Navigator.push(
@@ -77,21 +70,19 @@ class WorkingMonthPageState extends State<WorkingMonthPage> {
       int year = date.year;
       int lastDay = DateUtils.daysInMonth(year, month);
       int index = 0;
-        for (int day = 1; day <= lastDay; day++) {
-          WorkDay workDay = (index < data.length) ? data[index] : null;
-          DateTime currentDate = new DateTime(year, month, day);
-          if ((workDay != null) && (DateUtils.areSameDay(currentDate, workDay.date))) {
-            index++;
-          } else {
-            // create empty WorkDay
-            workDay = WorkDay(currentDate, 0, null);
-          }
-          fullMonth.add(workDay);
+      for (int day = 1; day <= lastDay; day++) {
+        WorkDay workDay = (index < data.length) ? data[index] : null;
+        DateTime currentDate = new DateTime(year, month, day);
+        if ((workDay != null) &&
+            (DateUtils.areSameDay(currentDate, workDay.date))) {
+          index++;
+        } else {
+          // create empty WorkDay
+          workDay = WorkDay(currentDate, 0, null);
         }
-
+        fullMonth.add(workDay);
+      }
     }
     return fullMonth;
-
-
   }
 }

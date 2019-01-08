@@ -1,27 +1,9 @@
 class WorkDay implements Comparable<WorkDay> {
-  DateTime _date;
-  int _totalMinutes;
-  List<DateTime> _checkings;
+  DateTime date;
+  int totalMinutes;
+  List<DateTime> checkings;
 
-  WorkDay(this._date, this._totalMinutes, this._checkings);
-
-  List<DateTime> get checkings => _checkings;
-
-  set checkings(List<DateTime> value) {
-    _checkings = value;
-  }
-
-  int get totalMinutes => _totalMinutes;
-
-  set totalMinutes(int value) {
-    _totalMinutes = value;
-  }
-
-  DateTime get date => _date;
-
-  set date(DateTime value) {
-    _date = value;
-  }
+  WorkDay(this.date, this.totalMinutes, this.checkings);
 
   factory WorkDay.fromJson(Map<String, dynamic> json) {
     DateTime date = DateTime.parse(json["date"]);
@@ -29,11 +11,10 @@ class WorkDay implements Comparable<WorkDay> {
     List checkings = json["checkings"];
     List<DateTime> checkingDates = [];
     for (var checking in checkings) {
-      DateTime checkDate =  DateTime.parse(checking);
+      DateTime checkDate = DateTime.parse(checking);
       checkingDates.add(checkDate);
     }
     return WorkDay(date, totalMinutes, checkingDates);
-
   }
 
   @override
@@ -48,5 +29,4 @@ class WorkDay implements Comparable<WorkDay> {
       return this.date.compareTo(other.date);
     }
   }
-
 }

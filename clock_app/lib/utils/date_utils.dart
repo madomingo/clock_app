@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 class DateUtils {
   static DateFormat _monthDateFormat = new DateFormat("MMM");
   static DateFormat _fullMonthDateFormat = new DateFormat("MMMM yyyy");
-  static DateFormat _fullDateFormat = new DateFormat("dd - MMM - yyyy");
 
   static bool areSameDay(DateTime date1, DateTime date2) {
     if ((date1 == null) && (date2 == null)) {

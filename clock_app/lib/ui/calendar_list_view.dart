@@ -8,8 +8,6 @@ class CalendarListView extends StatefulWidget {
   final Function(WorkMonth) onWorkMonthSelected;
   CalendarListView({this.data, this.onWorkMonthSelected});
 
-
-
   @override
   State<StatefulWidget> createState() {
     var state = new CalendarListViewState(this.data, this._onItemClicked);
@@ -17,7 +15,7 @@ class CalendarListView extends StatefulWidget {
     return state;
   }
 
-  Function _onItemClicked(int position) {
+  void _onItemClicked(int position) {
     if ((position >= 0) && (position < data.length)) {
       WorkMonth workMonth = data[position];
       this.onWorkMonthSelected(workMonth);
@@ -39,24 +37,22 @@ class CalendarListViewState extends State<CalendarListView> {
     return ListView.builder(
         itemCount: (_items != null) ? (_items.length * 2) : 0,
         itemBuilder: (context, i) {
-            if (i.isOdd) {
-              // Add a one-pixel-high divider widget before each row in theListView.
-              return Divider();
-            } else {
-              int itemIndex = i ~/ 2;
-              var item = _items[itemIndex];
-              DateTime date = item.date;
-              int duration = item.totalHours;
-              int excess = item.excessHours;
+          if (i.isOdd) {
+            // Add a one-pixel-high divider widget before each row in theListView.
+            return Divider();
+          } else {
+            int itemIndex = i ~/ 2;
+            var item = _items[itemIndex];
+            DateTime date = item.date;
+            int duration = item.totalHours;
+            int excess = item.excessHours;
 
-              return GestureDetector(
-                  onTap: () {
-                    this._onItemClicked(itemIndex);
-                    },
-                  child: MonthItem(date, duration, excess));
-            }
+            return GestureDetector(
+                onTap: () {
+                  this._onItemClicked(itemIndex);
+                },
+                child: MonthItem(date, duration, excess));
+          }
         });
   }
-
 }
-

@@ -64,7 +64,7 @@ class MonthItemState extends State<MonthItem> {
                         padding: EdgeInsets.only(left: 8),
                         child: Column(
                           children: <Widget>[
-                            Text(ClockAppLocalizations.of(context).total_hours,
+                            Text(ClockAppLocalizations.of(context).totalHours,
                                 style: _mediumFont),
                             Text(_durationHours.toString(), style: _bigFont)
                           ],
@@ -78,7 +78,7 @@ class MonthItemState extends State<MonthItem> {
                               children: <Widget>[
                                 Text(
                                     ClockAppLocalizations.of(context)
-                                        .excess_hours,
+                                        .excessHours,
                                     style: _mediumFont),
                                 (_excessHours.abs() < 10)
                                     ? Text(_excessHours.toString(),

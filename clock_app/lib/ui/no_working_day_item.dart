@@ -16,11 +16,12 @@ class NoWorkingDayItem extends StatefulWidget {
 }
 
 class NoWorkingDayItemState extends State<NoWorkingDayItem> {
-  final _xlFont = const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black54);
-  final _smallFont =
-      const TextStyle(fontSize: 10.0, fontWeight: FontWeight.normal, color: Colors.black54);
-  final _mediumFont =
-      const TextStyle(fontSize: 12.0, fontWeight: FontWeight.normal, color: Colors.black54);
+  final _xlFont = const TextStyle(
+      fontSize: 18.0, fontWeight: FontWeight.bold, color: Colors.black54);
+  final _smallFont = const TextStyle(
+      fontSize: 10.0, fontWeight: FontWeight.normal, color: Colors.black54);
+  final _mediumFont = const TextStyle(
+      fontSize: 12.0, fontWeight: FontWeight.normal, color: Colors.black54);
 
   final String _dayOfMonth;
   final String _month;
@@ -48,7 +49,7 @@ class NoWorkingDayItemState extends State<NoWorkingDayItem> {
             Expanded(
                 child: Padding(
                     padding: EdgeInsets.only(left: 12.0, right: 12.0),
-                    child: Text(ClockAppLocalizations.of(context).no_records,
+                    child: Text(ClockAppLocalizations.of(context).noRecords,
                         style: _mediumFont, textAlign: TextAlign.center)))
           ],
         ));

@@ -10,5 +10,11 @@
   "no_records": "Sin registro",
   "in_out": "Entrada - Salida",
   "total_hours": "Horas totales",
-  "excess_hours": "Exceso de horas"
+  "excess_hours": "Exceso de horas",
+  "refresh" : "Refrescar",
+  "sign_out" : "Salir",
+  "sign_in" : "Entrar",
+  "reports" : "Informes",
+  "authentication_error" : "¡¡Ocurrió un error de autenticación!!",
+  "authenticating_user" : "Validando usuario..."
 }

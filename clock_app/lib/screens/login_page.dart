@@ -1,8 +1,11 @@
+import 'package:clock_app/clock_localizations.dart';
+import 'package:clock_app/screens/calendar_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:random_string/random_string.dart' as random;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -12,8 +15,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   GoogleSignInAccount _currentGoogleAccount;
   FirebaseUser _currentFirebaseUser;
-  String _contactText;
   bool _authenticationError = false;
+  String _qrToken = "";
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ["email"]);
@@ -21,16 +24,16 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _googleSignIn.isSignedIn().then((bool signed) => _checkCurrentGoogleUser(signed),
-      onError: _doGoogleSignIn
-      );
-
+    _googleSignIn.isSignedIn().then(
+        (bool signed) => _checkCurrentGoogleUser(signed),
+        onError: _doGoogleSignIn);
   }
 
   void _checkCurrentGoogleUser(bool signed) {
     if (signed) {
-      _googleSignIn.signInSilently().then(
-              (GoogleSignInAccount account) => _onGoogleSigned(account));
+      _googleSignIn
+          .signInSilently()
+          .then((GoogleSignInAccount account) => _onGoogleSigned(account));
     } else {
       _doGoogleSignIn();
     }
@@ -43,9 +46,8 @@ class _LoginPageState extends State<LoginPage> {
     });
     if (account != null) {
       _auth.currentUser().then(
-              (FirebaseUser user) => _checkCurrentFirebaseUser(user),
-          onError: _doGoogleSignIn
-      );
+          (FirebaseUser user) => _checkCurrentFirebaseUser(user),
+          onError: _doGoogleSignIn);
     }
   }
 
@@ -54,12 +56,10 @@ class _LoginPageState extends State<LoginPage> {
       _currentFirebaseUser = user;
     });
 
-
     if (user == null) {
       _doFirebaseSignIn();
     } else {
       _onLoginSucess();
-
     }
   }
 
@@ -105,8 +105,13 @@ class _LoginPageState extends State<LoginPage> {
   void _onLoginSucess() {
     print("Firebase User");
     print(_currentFirebaseUser);
+    if (_currentFirebaseUser != null) {
+      setState(() {
+        _authenticationError = false;
+        _qrToken = _getNewQrToken();
+      });
+    }
     setState(() {
-      _contactText = _currentFirebaseUser.displayName;
       _authenticationError = (_currentFirebaseUser == null);
     });
   }
@@ -121,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
     _doGoogleSignIn();
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     if (_currentFirebaseUser != null) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -129,40 +134,77 @@ class _LoginPageState extends State<LoginPage> {
           ListTile(
             title: Text(_currentFirebaseUser.displayName),
             subtitle: Text(_currentFirebaseUser.email),
+            contentPadding: EdgeInsets.only(left: 20),
           ),
-          //const Text("Signed in successfully."),
-          new QrImage(
-            data: "1234567890",
-            size: 200.0,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new QrImage(
+                data: _buildQrData(),
+                size: 300.0,
+              ),
+              RaisedButton(
+                  child: Text(ClockAppLocalizations.of(context).refresh),
+                  onPressed: _refreshQr)
+            ],
           ),
           RaisedButton(
-              child: const Text('SIGN OUT'), onPressed: _handleSignOut),
+              child: Text(ClockAppLocalizations.of(context).sign_out),
+              onPressed: _handleSignOut),
+          RaisedButton(
+              child: Text(ClockAppLocalizations.of(context).reports),
+              onPressed: _handleReports),
         ],
       );
     } else if (_authenticationError) {
       return Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            const Text("There was an authentication error!!"),
+            Text(ClockAppLocalizations.of(context).authentication_error),
             RaisedButton(
-                child: const Text('SIGN IN'), onPressed: _doGoogleSignIn),
+                child: Text(ClockAppLocalizations.of(context).sign_in),
+                onPressed: _doGoogleSignIn),
           ]);
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          const Text("You are not currently signed in."),
+          Text(ClockAppLocalizations.of(context).authenticating_user),
           CircularProgressIndicator()
         ],
       );
     }
   }
 
+  Future<void> _handleReports() async {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CalendarPage()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints.expand(),
-      child: _buildBody(),
+      child: _buildBody(context),
     );
+  }
+
+  String _getNewQrToken() {
+    return random.randomAlphaNumeric(12);
+  }
+
+  String _buildQrData() {
+    String result = "";
+    if (_currentFirebaseUser != null) {
+      String uid = _currentFirebaseUser.uid;
+      result = uid + "#" + _qrToken;
+    }
+    return result;
+  }
+
+  void _refreshQr() {
+    setState(() {
+      _qrToken = _getNewQrToken();
+    });
   }
 }

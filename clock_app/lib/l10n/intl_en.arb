@@ -10,5 +10,11 @@
   "no_records": "No records",
   "in_out": "In - Out",
   "total_hours": "Total Hours",
-  "excess_hours": "Excess Hours"
+  "excess_hours": "Excess Hours",
+  "refresh" : "Refresh",
+  "sign_out" : "Sign Out",
+  "sign_in" : "Sign In",
+  "reports" : "Reports",
+  "authentication_error" : "There was an authentication error!!",
+  "authenticating_user" : "Authenticating user..."
 }

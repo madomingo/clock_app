@@ -46,7 +46,7 @@ class DayListView extends StatefulWidget {
     return state;
   }
 
-  Function _onItemClicked(int position) {
+  void _onItemClicked(int position) {
     print("Item clicked: " + position.toString());
     if ((position >= 0) && (position < data.length)) {
       WorkDay workDay = data[position];
@@ -133,8 +133,7 @@ class HeaderItem extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Padding(
                             padding: EdgeInsets.only(left: 12.0, right: 12.0),
-                            child: Text(
-                                ClockAppLocalizations.of(context).in_out,
+                            child: Text(ClockAppLocalizations.of(context).inOut,
                                 style: _headerFont,
                                 textAlign: TextAlign.center)))),
                 Expanded(
@@ -143,7 +142,7 @@ class HeaderItem extends StatelessWidget {
                         child: Padding(
                             padding: EdgeInsets.only(right: 12.0),
                             child: Text(
-                                ClockAppLocalizations.of(context).working_time,
+                                ClockAppLocalizations.of(context).workingTime,
                                 style: _headerFont,
                                 textAlign: TextAlign.right))))
               ])),

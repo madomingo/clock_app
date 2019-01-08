@@ -17,6 +17,15 @@ class CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Working Time Reports"),
+      ),
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
     return FutureBuilder<List<WorkMonth>>(
         future: operation.fetchPost(),
         builder: (context, snapshot) {

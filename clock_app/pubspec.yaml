@@ -28,6 +28,7 @@ dependencies:
   firebase_auth: ^0.6.6
   google_sign_in: ^3.2.4
   qr_flutter: ^1.1.5
+  random_string: ^0.0.2
 
 dev_dependencies:
   flutter_test:
