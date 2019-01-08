@@ -1,12 +1,12 @@
 import 'package:clock_app/clock_localizations.dart';
-import 'package:clock_app/model/work_day.dart';
+import 'package:clock_app/domain/model/work_day.dart';
 import 'package:clock_app/ui/no_working_day_item.dart';
+import 'package:clock_app/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:clock_app/ui/day_item.dart';
-import '../model/ui_work_day_summary.dart';
-import '../utils/date_utils.dart';
+import 'package:clock_app/domain/model/ui_work_day_summary.dart';
 
 class DayListView extends StatefulWidget {
   final List<WorkDay> data;

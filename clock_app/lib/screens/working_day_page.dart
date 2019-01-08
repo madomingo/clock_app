@@ -1,4 +1,4 @@
-import 'package:clock_app/model/work_day.dart';
+import 'package:clock_app/domain/model/work_day.dart';
 import 'package:flutter/material.dart';
 class WorkingDayPage extends StatelessWidget {
   // Declare a field that holds the WorkDay

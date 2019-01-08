@@ -1,7 +1,7 @@
 import 'package:clock_app/clock_localizations.dart';
+import 'package:clock_app/utils/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../utils/date_utils.dart';
 
 class MonthItem extends StatefulWidget {
   final DateTime _month;

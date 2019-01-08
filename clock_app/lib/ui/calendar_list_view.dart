@@ -1,4 +1,4 @@
-import 'package:clock_app/model/work_month.dart';
+import 'package:clock_app/domain/model/work_month.dart';
 import 'package:clock_app/ui/month_item.dart';
 import 'package:flutter/material.dart';
 

@@ -1,19 +1,19 @@
-import 'package:clock_app/model/work_day.dart';
+import 'package:clock_app/domain/model/work_month.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert'; // for json decoding
 
-class GetWorkingDaysOperation {
-  Future<List<WorkDay>> fetchPost() async {
+class GetWorkingMonthsOperation {
+  Future<List<WorkMonth>> fetchPost() async {
     final response =
-    await http.get('http://movilok.net/cms/movilok/test/working_days.json');
+    await http.get('http://movilok.net/cms/movilok/test/working_months.json');
 
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
       var document = json.decode(response.body);
-      List data = document["workDays"];
-      List<WorkDay> result = [];
+      List data = document["workMonths"];
+      List<WorkMonth> result = [];
       for (var item in data) {
-        WorkDay workDay = WorkDay.fromJson(item);
+        WorkMonth workDay = WorkMonth.fromJson(item);
         result.add(workDay);
       }
       return result;

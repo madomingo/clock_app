@@ -1,6 +1,6 @@
 import 'dart:convert'; // for json decoding
 import 'package:flutter_test/flutter_test.dart';
-import 'package:clock_app/model/work_day.dart';
+import 'package:clock_app/domain/model/work_day.dart';
 
 void main() {
   test('WorkDay json parser test', () {

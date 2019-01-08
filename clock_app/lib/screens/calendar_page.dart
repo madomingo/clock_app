@@ -1,8 +1,8 @@
 import 'package:clock_app/ui/calendar_list_view.dart';
-import 'package:clock_app/model/work_month.dart';
+import 'package:clock_app/domain/model/work_month.dart';
 import 'package:clock_app/screens/working_month_page.dart';
 import 'package:flutter/material.dart';
-import '../operations/get_working_months_operation.dart';
+import 'package:clock_app/domain/operations/get_working_months_operation.dart';
 
 class CalendarPage extends StatefulWidget {
   @override

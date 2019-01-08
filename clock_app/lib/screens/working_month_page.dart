@@ -1,10 +1,11 @@
-import 'package:clock_app/ui/day_list_view.dart';
-import 'package:clock_app/model/work_day.dart';
+import 'package:clock_app/domain/model/work_day.dart';
+import 'package:clock_app/domain/model/work_month.dart';
+import 'package:clock_app/domain/operations/get_working_days_operation.dart';
 import 'package:clock_app/screens/working_day_page.dart';
+import 'package:clock_app/ui/day_list_view.dart';
+import 'package:clock_app/utils/date_utils.dart';
 import 'package:flutter/material.dart';
-import '../operations/get_working_days_operation.dart';
-import '../model/work_month.dart';
-import '../utils/date_utils.dart';
+
 
 class WorkingMonthPage extends StatefulWidget {
   final WorkMonth _workMonth;
@@ -37,7 +38,8 @@ class WorkingMonthPageState extends State<WorkingMonthPage> {
                 List<WorkDay> data =
                     buildWorkDayList(_workMonth.date, snapshot.data);
                 return DayListView(
-                    data: data, onWorkDaySelected: _onWorkDaySelected);
+                    data: data,
+                    onWorkDaySelected: _onWorkDaySelected);
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
@@ -47,7 +49,7 @@ class WorkingMonthPageState extends State<WorkingMonthPage> {
             }));
   }
 
-  void _onWorkDaySelected(WorkDay workDay) {
+  Function(WorkDay) _onWorkDaySelected(workDay) {
     if ((workDay != null) && (workDay.totalMinutes > 0)) {
       navigateToDetail(workDay);
     }
