@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 class DateUtils {
   static DateFormat _monthDateFormat = new DateFormat("MMM");
   static DateFormat _fullMonthDateFormat = new DateFormat("MMMM yyyy");
+  static DateFormat _fullDateFormat = new DateFormat("yyyy-MM-dd");
+  static DateFormat _shortTimeFormat = new DateFormat("HH:mm");
 
   static bool areSameDay(DateTime date1, DateTime date2) {
     if ((date1 == null) && (date2 == null)) {
@@ -40,5 +42,22 @@ class DateUtils {
     String dateStr = _fullMonthDateFormat.format(date);
     String result = dateStr[0].toUpperCase() + dateStr.substring(1);
     return result;
+  }
+
+  static DateTime getFromTimestamp(int timestamp) {
+    return DateTime.fromMillisecondsSinceEpoch(timestamp);
+  }
+
+  static String getFullDateString(DateTime dateTime) {
+    String result = null;
+    if (dateTime != null) {
+      result = _fullDateFormat.format(dateTime);
+    }
+    return result;
+  }
+
+  static String getShortTimeFormatFromTimestamp(int timestamp) {
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timestamp);
+    return _shortTimeFormat.format(dateTime);
   }
 }

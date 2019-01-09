@@ -84,7 +84,7 @@ class ClockAppLocalizations {
     );
   }
 
-  String get sign_out {
+  String get signOut {
     return Intl.message(
       'Sign Out',
       name: 'sign_out',
@@ -92,7 +92,7 @@ class ClockAppLocalizations {
     );
   }
 
-  String get sign_in {
+  String get signIn {
     return Intl.message(
       'Sign In',
       name: 'sign_in',
@@ -108,7 +108,7 @@ class ClockAppLocalizations {
     );
   }
 
-  String get authentication_error {
+  String get authenticationError {
     return Intl.message(
       'There was an authentication error!!',
       name: 'authentication_error',
@@ -116,7 +116,7 @@ class ClockAppLocalizations {
     );
   }
 
-  String get authenticating_user {
+  String get authenticatingUser {
     return Intl.message(
       'Authenticating user...',
       name: 'authenticating_user',

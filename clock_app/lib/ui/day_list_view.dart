@@ -19,13 +19,13 @@ class DayListView extends StatefulWidget {
     for (WorkDay workDay in data) {
       DateTime date = workDay.date;
       Duration duration = new Duration(minutes: workDay.totalMinutes);
-      var checkings = workDay.checkings;
+      var checkins = workDay.checkins;
       DateTime inTime, outTime;
-      if (checkings != null) {
-        if (checkings.length > 0) {
-          inTime = checkings[0];
-          if (checkings.length > 1) {
-            outTime = checkings[checkings.length - 1];
+      if (checkins != null) {
+        if (checkins.length > 0) {
+          inTime = checkins[0];
+          if (checkins.length > 1) {
+            outTime = checkins[checkins.length - 1];
           }
         }
       }

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class Login {
+class FirebaseLogin {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ["email"]);
 
@@ -9,17 +9,17 @@ class Login {
   FirebaseUser _currentFirebaseUser;
   bool _authenticationError;
 
-  Function(String, String, String) onSuccess;
+  Function(String, String, String, String) onSuccess;
   Function(String) onError;
 
-  Login({this.onSuccess, this.onError});
+  FirebaseLogin({this.onSuccess, this.onError});
 
   void login() {
     _currentGoogleAccount = null;
     _currentFirebaseUser = null;
     _authenticationError = null;
     _googleSignIn.isSignedIn().then(
-            (bool signed) => _checkCurrentGoogleUser(signed),
+        (bool signed) => _checkCurrentGoogleUser(signed),
         onError: _doGoogleSignIn);
   }
 
@@ -34,39 +34,38 @@ class Login {
   }
 
   void _onGoogleSigned(GoogleSignInAccount account) {
-      _currentGoogleAccount = account;
-      _authenticationError = (account == null);
+    _currentGoogleAccount = account;
+    _authenticationError = (account == null);
 
-      if (account != null) {
-        _auth.currentUser().then(
-                (FirebaseUser user) => _checkCurrentFirebaseUser(user),
-            onError: _doGoogleSignIn);
-      } else {
-        _notifyError(null);
-      }
+    if (account != null) {
+      _auth.currentUser().then(
+          (FirebaseUser user) => _checkCurrentFirebaseUser(user),
+          onError: _doGoogleSignIn);
+    } else {
+      _notifyError(null);
+    }
   }
 
   void _checkCurrentFirebaseUser(FirebaseUser user) {
-      _currentFirebaseUser = user;
+    _currentFirebaseUser = user;
 
-
-      if (user == null) {
-        _doFirebaseSignIn();
-      } else {
-        _notifySuccess();
-      }
+    if (user == null) {
+      _doFirebaseSignIn();
+    } else {
+      _notifySuccess();
+    }
   }
 
   void _doFirebaseSignIn() async {
     if (_currentGoogleAccount != null) {
       try {
         GoogleSignInAuthentication authentication =
-        await _currentGoogleAccount.authentication;
+            await _currentGoogleAccount.authentication;
         var user = await _auth.signInWithGoogle(
             idToken: authentication.idToken,
             accessToken: authentication.accessToken);
-          _currentFirebaseUser = user;
-          _authenticationError = (user == null);
+        _currentFirebaseUser = user;
+        _authenticationError = (user == null);
         if (user != null) {
           _notifySuccess();
         } else {
@@ -90,16 +89,18 @@ class Login {
   }
 
   void _notifySuccess() {
-    if (_currentGoogleAccount != null && _currentFirebaseUser != null && (!_authenticationError)) {
+    if (_currentGoogleAccount != null &&
+        _currentFirebaseUser != null &&
+        (!_authenticationError)) {
       if (this.onSuccess != null) {
         String uid = _currentFirebaseUser.uid;
         String name = _currentFirebaseUser.displayName;
         String email = _currentFirebaseUser.email;
-        onSuccess(uid, name, email);
+        String avatar = _currentFirebaseUser.photoUrl;
+        onSuccess(uid, name, email, avatar);
       } else {
         _notifyError(null);
       }
-
     }
   }
 
@@ -110,11 +111,20 @@ class Login {
   }
 
   Future<void> signOut() async {
-    await _auth.signOut();
-    await _googleSignIn.disconnect();
+    try {
+      await _auth.signOut();
+    } catch (error) {
+      print("Error disconnecting from Firebase: " + error);
+    }
+    try {
+      await _googleSignIn.disconnect();
+      await _googleSignIn.signOut();
+    } catch (error) {
+      print("Error disconnecting from Google: " + error);
+    }
+
     _currentFirebaseUser = null;
     _currentGoogleAccount = null;
     _authenticationError = false;
   }
-
 }

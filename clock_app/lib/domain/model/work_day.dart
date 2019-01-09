@@ -1,9 +1,9 @@
 class WorkDay implements Comparable<WorkDay> {
   DateTime date;
   int totalMinutes;
-  List<DateTime> checkings;
+  List<DateTime> checkins;
 
-  WorkDay(this.date, this.totalMinutes, this.checkings);
+  WorkDay(this.date, this.totalMinutes, this.checkins);
 
   factory WorkDay.fromJson(Map<String, dynamic> json) {
     DateTime date = DateTime.parse(json["date"]);
